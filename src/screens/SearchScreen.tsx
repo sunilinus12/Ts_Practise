@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useCallback, useState } from "react";
+import React from "react";
 import { InputField } from "../components";
 import { useSearchView } from "../hooks";
 
 const SearchScreen: React.FC = () => {
   const { handleChangeText, field, setField } = useSearchView();
+
   return (
     <View style={styles.container}>
       <InputField
@@ -12,6 +13,7 @@ const SearchScreen: React.FC = () => {
         value={field}
         onChangeText={handleChangeText}
         numberOfLines={1}
+        style={styles.textField}
       />
       <Text>{field}</Text>
     </View>
@@ -25,5 +27,9 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 50,
     alignItems: "center",
+  },
+  textField: {
+    width: "90%",
+    maxWidth: "100%",
   },
 });

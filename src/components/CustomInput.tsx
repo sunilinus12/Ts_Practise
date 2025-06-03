@@ -8,15 +8,16 @@ const CustomInput: React.FC<TextInputProps> = (props) => {
     value = "",
     onChangeText = () => {},
     numberOfLines = 1,
+    style,
     ...rest
   } = props;
   return (
     <TextInput
+      {...rest}
       placeholder={placeholder}
-      style={styles.textField}
+      style={[styles.textField, style]}
       value={value}
       onChangeText={onChangeText}
-      {...rest}
     />
   );
 };
