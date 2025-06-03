@@ -1,14 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useCallback, useState } from "react";
 import { InputField } from "../components";
+import { useSearchView } from "../hooks";
 
 const SearchScreen: React.FC = () => {
-  const [field, setField] = useState<string>("");
-
-  const handleChangeText = useCallback((e: string) => {
-    setField(e);
-  }, []);
-
+  const { handleChangeText, field, setField } = useSearchView();
   return (
     <View style={styles.container}>
       <InputField
