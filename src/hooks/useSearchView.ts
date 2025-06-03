@@ -1,12 +1,13 @@
 import { useCallback, useState } from "react";
 import { SearchQuery } from "../api";
+import { debounce } from "../utils";
 
 const useSearchView = () => {
   const [field, setField] = useState<string>('');
   const [list, setList] = useState<object[]>([])
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<null | string>(null);
-  const debounceHandle = async (e: string) => {
+  const fetchQuery = async (e: string) => {
     try {
       setLoading(true);
       const resp = await SearchQuery(e);
@@ -16,7 +17,7 @@ const useSearchView = () => {
         setList([])
       }
     } catch (error) {
-      console.error("Errr debounceHandle", error);
+      console.error("Errr fetchQuery", error);
       if (error instanceof Error) {
         setError(error.message);
       } else {
@@ -26,13 +27,17 @@ const useSearchView = () => {
       setLoading(false)
     }
   }
+  const debouncedHandle = debounce((e) => fetchQuery(e), 500);
+
+
+
   const handleChangeText = useCallback((e: string) => {
     setField(e);
     if (e?.trim() == "") {
       setList([])
     }
     if (e?.trim() !== "") {
-      debounceHandle(e)
+      debouncedHandle(e)
     }
 
   }, []);
