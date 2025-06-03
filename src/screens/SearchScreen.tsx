@@ -1,10 +1,19 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { InputField } from "../components";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import React, { useCallback } from "react";
+import { InputField, ListCard, LoadingIndicator } from "../components";
 import { useSearchView } from "../hooks";
+import { ListItemProps } from "../interfaces";
 
 const SearchScreen: React.FC = () => {
-  const { handleChangeText, field, setField } = useSearchView();
+  const { handleChangeText, field, list, loading, error } = useSearchView();
+
+  const renderItem = useCallback(({ item }: { item: ListItemProps }) => {
+    return <ListCard ADDRESS={item.ADDRESS} SEARCHVAL={item.SEARCHVAL} />;
+  }, []);
+  const keyExtractor = useCallback(
+    (item: ListItemProps, index: number) => index.toString(),
+    []
+  );
 
   return (
     <View style={styles.container}>
@@ -15,7 +24,15 @@ const SearchScreen: React.FC = () => {
         numberOfLines={1}
         style={styles.textField}
       />
-      <Text>{field}</Text>
+      {!loading ? (
+        <FlatList
+          data={list}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+        />
+      ) : (
+        <LoadingIndicator />
+      )}
     </View>
   );
 };

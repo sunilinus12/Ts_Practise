@@ -12,5 +12,10 @@ export interface TextInputProps extends RNTextInputProps {
     placeholder?: string,
     value?: string,
     onChangeText?: (e: string) => void,
+}
 
+
+export interface ListItemProps {
+    SEARCHVAL?: string,
+    ADDRESS?: string
 }
