@@ -1,18 +1,37 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { SearchQuery } from "../api";
 import { debounce } from "../utils";
+import axios, { CancelTokenSource } from "axios";
+
 
 const useSearchView = () => {
   const [field, setField] = useState<string>('');
   const [list, setList] = useState<object[]>([])
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<null | string>(null);
+  const cancelTokenRef = useRef<CancelTokenSource>(axios.CancelToken.source());
   const fetchQuery = async (e: string) => {
     try {
+
+      if (cancelTokenRef.current) {
+        cancelTokenRef.current.cancel("Canceled due to new request");
+      }
+      cancelTokenRef.current = axios.CancelToken.source();
       setLoading(true);
-      const resp = await SearchQuery(e);
+      const resp = await SearchQuery(e, cancelTokenRef.current.token);
       if (resp.results && resp.results.length > 0) {
-        setList(resp.results)
+
+        setField(fvalue => {
+          if (fvalue.trim() == "") {
+            setList([]);
+            if (cancelTokenRef.current) {
+              cancelTokenRef.current.cancel("Canceled due to new request");
+            }
+          } else {
+            setList(resp.results)
+          }
+          return fvalue
+        })
       } else {
         setList([])
       }
@@ -31,10 +50,10 @@ const useSearchView = () => {
 
 
 
-  const handleChangeText = useCallback((e: string) => {
+  const handleChangeText = useCallback(async (e: string) => {
     setField(e);
     if (e?.trim() == "") {
-      setList([])
+      return setList([])
     }
     if (e?.trim() !== "") {
       debouncedHandle(e)
