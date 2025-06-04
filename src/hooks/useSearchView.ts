@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { SearchQuery } from "../api";
-import { debounce } from "../utils";
 import axios, { CancelTokenSource } from "axios";
-
+import _ from "lodash";
 
 const useSearchView = () => {
   const [field, setField] = useState<string>('');
@@ -12,7 +11,6 @@ const useSearchView = () => {
   const cancelTokenRef = useRef<CancelTokenSource>(axios.CancelToken.source());
   const fetchQuery = async (e: string) => {
     try {
-
       if (cancelTokenRef.current) {
         cancelTokenRef.current.cancel("Canceled due to new request");
       }
@@ -20,18 +18,7 @@ const useSearchView = () => {
       setLoading(true);
       const resp = await SearchQuery(e, cancelTokenRef.current.token);
       if (resp.results && resp.results.length > 0) {
-
-        setField(fvalue => {
-          if (fvalue.trim() == "") {
-            setList([]);
-            if (cancelTokenRef.current) {
-              cancelTokenRef.current.cancel("Canceled due to new request");
-            }
-          } else {
-            setList(resp.results)
-          }
-          return fvalue
-        })
+        setList(resp.results)
       } else {
         setList([])
       }
@@ -46,13 +33,19 @@ const useSearchView = () => {
       setLoading(false)
     }
   }
-  const debouncedHandle = debounce((e) => fetchQuery(e), 500);
 
+
+  const debouncedHandle = _.debounce((e) => fetchQuery(e), 500);
 
 
   const handleChangeText = useCallback(async (e: string) => {
     setField(e);
     if (e?.trim() == "") {
+      if (cancelTokenRef.current) {
+        cancelTokenRef.current.cancel('Canceled due to new request')
+      }
+      debouncedHandle.cancel()
+      console.log("cleared handled");
       return setList([])
     }
     if (e?.trim() !== "") {
