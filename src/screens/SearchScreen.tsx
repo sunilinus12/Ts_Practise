@@ -7,9 +7,14 @@ import { ListItemProps } from "../interfaces";
 const SearchScreen: React.FC = () => {
   const { handleChangeText, field, list, loading, error } = useSearchView();
 
-  const renderItem = useCallback(({ item }: { item: ListItemProps }) => {
-    return <ListCard ADDRESS={item.ADDRESS} SEARCHVAL={item.SEARCHVAL} />;
-  }, []);
+  const renderItem = useCallback(
+    ({ item }: { item: ListItemProps }) => (
+      <ListCard ADDRESS={item.ADDRESS} SEARCHVAL={item.SEARCHVAL} />
+    ),
+    []
+  );
+
+  
   const keyExtractor = useCallback(
     (item: ListItemProps, index: number) => index.toString(),
     []
