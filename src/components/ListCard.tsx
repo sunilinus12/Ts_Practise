@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
-    width: "92%",
+   minWidth: "92%",
   },
   title: {
     fontSize: 16,
