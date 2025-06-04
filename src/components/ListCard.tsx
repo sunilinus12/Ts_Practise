@@ -9,7 +9,9 @@ const ListCard: React.FC<ListItemProps> = ({ SEARCHVAL, ADDRESS }) => {
       {SEARCHVAL && (
         <Text style={styles.title}>{capitalizeEachWord(SEARCHVAL)}</Text>
       )}
-      {ADDRESS && <Text style={styles.subtitle}>{capitalizeEachWord(ADDRESS)}</Text>}
+      {ADDRESS && (
+        <Text style={styles.subtitle}>{capitalizeEachWord(ADDRESS)}</Text>
+      )}
     </View>
   );
 };
@@ -28,6 +30,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    width: "92%",
   },
   title: {
     fontSize: 16,
