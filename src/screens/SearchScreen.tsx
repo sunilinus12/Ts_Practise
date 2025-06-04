@@ -3,7 +3,6 @@ import React, { useCallback } from "react";
 import { InputField, ListCard, LoadingIndicator } from "../components";
 import { useSearchView } from "../hooks";
 import { ListItemProps } from "../interfaces";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const SearchScreen: React.FC = () => {
   const { handleChangeText, field, list, loading, error } = useSearchView();

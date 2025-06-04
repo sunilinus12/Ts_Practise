@@ -8,8 +8,8 @@ const useSearchView = () => {
   const [list, setList] = useState<object[]>([])
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<null | string>(null);
-  const cancelTokenRef = useRef<CancelTokenSource>(axios.CancelToken.source());
-  const fetchQuery = async (e: string) => {
+  const cancelTokenRef = useRef<CancelTokenSource | null>(null);
+  const fetchQuery = useCallback(async (e: string) => {
     try {
       if (cancelTokenRef.current) {
         cancelTokenRef.current.cancel("Canceled due to new request");
@@ -32,10 +32,17 @@ const useSearchView = () => {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+  const debouncedHandle = useMemo(() => _.debounce((e) => fetchQuery(e), 500), [fetchQuery]);
 
-
-  const debouncedHandle = _.debounce((e) => fetchQuery(e), 500);
+  useEffect(() => {
+    return () => {
+      if (cancelTokenRef.current) {
+        cancelTokenRef.current.cancel();
+      }
+      debouncedHandle.cancel()
+    }
+  }, [debouncedHandle])
 
 
   const handleChangeText = useCallback(async (e: string) => {
@@ -48,10 +55,7 @@ const useSearchView = () => {
       console.log("cleared handled");
       return setList([])
     }
-    if (e?.trim() !== "") {
-      debouncedHandle(e)
-    }
-
+    debouncedHandle(e)
   }, []);
 
 
