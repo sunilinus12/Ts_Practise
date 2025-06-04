@@ -5,7 +5,8 @@ import { useSearchView } from "../hooks";
 import { ListItemProps } from "../interfaces";
 
 const SearchScreen: React.FC = () => {
-  const { handleChangeText, field, list, loading, error } = useSearchView();
+  const { handleChangeText, field, list, loading, error, noResult } =
+    useSearchView();
 
   const renderItem = useCallback(
     ({ item }: { item: ListItemProps }) => (
@@ -14,12 +15,17 @@ const SearchScreen: React.FC = () => {
     []
   );
 
-  
   const keyExtractor = useCallback(
     (item: ListItemProps, index: number) => index.toString(),
     []
   );
 
+  const renderListEmptyComponent = useCallback(() => {
+    if (noResult) {
+      return <Text>No Results Found</Text>;
+    }
+    return null;
+  }, [noResult]);
   return (
     <View style={[styles.container]}>
       <InputField
@@ -29,12 +35,15 @@ const SearchScreen: React.FC = () => {
         numberOfLines={1}
         style={styles.textField}
       />
-      {!loading ? (
+      {error ? (
+        <Text>{error}</Text>
+      ) : !loading ? (
         <FlatList
           data={list}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
           showsVerticalScrollIndicator={false}
+          ListEmptyComponent={renderListEmptyComponent}
         />
       ) : (
         <LoadingIndicator />

@@ -25,6 +25,7 @@ export interface InitialStateProps {
     list: object[],
     field: string,
     error: null | string,
+    noResult?: boolean
 
 }
 
@@ -32,4 +33,5 @@ export type Action =
     | { type: 'SET_LOADING'; payload: boolean }
     | { type: 'SET_LIST'; payload: object[] }
     | { type: 'SET_FIELD'; payload: string }
-    | { type: 'SET_ERROR'; payload: string | null };
+    | { type: 'SET_ERROR'; payload: string | null }
+    | { type: "SET_NORESULT"; payload: boolean };
