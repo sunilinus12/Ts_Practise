@@ -1,16 +1,20 @@
 import { StatusBar } from "expo-status-bar";
-import { SearchScreen } from "./src/screens";
+import { CounterScreen, SearchScreen } from "./src/screens";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { GlobalContextProvider } from "./src/context/GlobalContext";
 
 export default function App() {
   return (
     <>
-      <SafeAreaProvider>
-        <SafeAreaView style={{flex:1}}>
-          <StatusBar style="auto" />
-          <SearchScreen />
-        </SafeAreaView>
-      </SafeAreaProvider>
+      <GlobalContextProvider>
+        <SafeAreaProvider>
+          <SafeAreaView style={{ flex: 1 }}>
+            <StatusBar style="auto" />
+            {/* <SearchScreen /> */}
+            <CounterScreen />
+          </SafeAreaView>
+        </SafeAreaProvider>
+      </GlobalContextProvider>
     </>
   );
 }

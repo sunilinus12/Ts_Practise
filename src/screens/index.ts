@@ -1,2 +1,3 @@
 import SearchScreen from "./SearchScreen"
-export {SearchScreen}
+import CounterScreen from "./CounterScreen"
+export { SearchScreen, CounterScreen }

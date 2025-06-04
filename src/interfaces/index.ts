@@ -35,3 +35,12 @@ export type Action =
     | { type: 'SET_FIELD'; payload: string }
     | { type: 'SET_ERROR'; payload: string | null }
     | { type: "SET_NORESULT"; payload: boolean };
+
+
+export interface CounterInitialProps {
+    value: number
+}
+
+export type CounterAction = {
+    type: "INCREAMENT"; payload: number
+} | { type: "DECREMENT"; payload: number }

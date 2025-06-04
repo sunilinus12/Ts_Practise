@@ -1,2 +1,3 @@
 import useSearchView from "./useSearchView";
-export { useSearchView };
+import useCounterViewModel from "./useCounterViewModel";
+export { useSearchView, useCounterViewModel };
