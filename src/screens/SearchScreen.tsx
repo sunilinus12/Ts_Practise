@@ -7,8 +7,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const SearchScreen: React.FC = () => {
   const { handleChangeText, field, list, loading, error } = useSearchView();
-  const insets = useSafeAreaInsets();
-  console.log("insetsinsetsinsets", insets);
 
   const renderItem = useCallback(({ item }: { item: ListItemProps }) => {
     return <ListCard ADDRESS={item.ADDRESS} SEARCHVAL={item.SEARCHVAL} />;
@@ -19,12 +17,7 @@ const SearchScreen: React.FC = () => {
   );
 
   return (
-    <View
-      style={[
-        styles.container,
-        { paddingBottom: insets?.bottom, paddingTop: insets?.top },
-      ]}
-    >
+    <View style={[styles.container]}>
       <InputField
         placeholder="Please Type Here"
         value={field}
