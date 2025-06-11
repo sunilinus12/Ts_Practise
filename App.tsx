@@ -12,12 +12,17 @@ export default function App() {
       <Text>counter {value}</Text>
       <Text>{book.author}</Text>
       <StatusBar style="auto" />
-      <Button
-        onClick={() => {
-          setValue((e) => e + 1);
-        }}
-        text={"Increament"}
-      />
+      <View style={styles.wrapper}>
+        <Button
+          text="Increment"
+          onClick={() => setValue((prev) => prev + 1)}
+        />
+        <Button
+          text="Decrement"
+          onClick={() => setValue((prev) => prev - 1)}
+        />
+      </View>
+
     </View>
   );
 }
@@ -29,4 +34,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  wrapper:{
+    flexDirection: "row",
+    gap: 10,
+    marginTop: 20,
+  }
 });
