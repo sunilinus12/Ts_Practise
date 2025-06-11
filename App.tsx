@@ -10,8 +10,8 @@ export default function App() {
         <SafeAreaProvider>
           <SafeAreaView style={{ flex: 1 }}>
             <StatusBar style="auto" />
-            {/* <SearchScreen /> */}
-            <CounterScreen />
+            <SearchScreen />
+            {/* <CounterScreen /> */}
           </SafeAreaView>
         </SafeAreaProvider>
       </GlobalContextProvider>

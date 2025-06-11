@@ -46,6 +46,7 @@ const useSearchView = () => {
       if (cancelTokenRef.current) {
         cancelTokenRef.current.cancel("Canceled due to new request");
       }
+     
       cancelTokenRef.current = axios.CancelToken.source();
       dispatch({ type: "SET_LOADING", payload: true });
       dispatch({ type: "SET_NORESULT", payload: false })
@@ -55,6 +56,7 @@ const useSearchView = () => {
       } else {
         dispatch({ type: "SET_NORESULT", payload: true })
       }
+      
     } catch (error) {
       console.error("Errr fetchQuery", error);
       if (error instanceof Error) {
@@ -81,8 +83,6 @@ const useSearchView = () => {
     };
   }, [debouncedHandle]);
 
-  console.log("state", state.field);
-
   const handleChangeText = useCallback(async (e: string) => {
     dispatch({ type: "SET_FIELD", payload: e });
     if (e?.trim() == "") {
@@ -90,7 +90,7 @@ const useSearchView = () => {
         cancelTokenRef.current.cancel("Canceled due to new request");
       }
       debouncedHandle.cancel();
-      console.log("cleared handled");
+      dispatch({ type: "SET_NORESULT", payload: false })
       return dispatch({ type: "SET_LIST", payload: [] });
     }
     debouncedHandle(e);

@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
 import React, { useCallback } from "react";
 import { InputField, ListCard, LoadingIndicator } from "../components";
 import { useSearchView } from "../hooks";
@@ -14,6 +14,7 @@ const SearchScreen: React.FC = () => {
     ),
     []
   );
+  console.log("noResultnoResultnoResult", noResult);
 
   const keyExtractor = useCallback(
     (item: ListItemProps, index: number) => index.toString(),
@@ -27,7 +28,9 @@ const SearchScreen: React.FC = () => {
     return null;
   }, [noResult]);
   return (
-    <View style={[styles.container]}>
+    <KeyboardAvoidingView style={[styles.container]}
+      behavior="padding"
+      >
       <InputField
         placeholder="Please Type Here"
         value={field}
@@ -48,7 +51,7 @@ const SearchScreen: React.FC = () => {
       ) : (
         <LoadingIndicator />
       )}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
