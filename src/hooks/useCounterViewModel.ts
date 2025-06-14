@@ -1,37 +1,23 @@
 import { useReducer } from "react"
 import { CounterAction, CounterInitialProps } from "../interfaces"
-
-
-
-const reducer = (state: CounterInitialProps, action: CounterAction) => {
-    switch (action.type) {
-        case "DECREMENT":
-            return { value: action.payload }
-        case "INCREAMENT":
-            return { value: action.payload }
-
-        default:
-            return state
-    }
-}
-
-const initialState: CounterInitialProps = {
-    value: 0
-}
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "../redux/store";
+import { decrement, increment } from "../redux/reducers/CounterReducer";
 
 const useCounterViewModel = () => {
 
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const counter = useSelector((state: RootState) => state.counter);
+    const dispatch = useDispatch<AppDispatch>();
     const handleIncrement = () => {
-        dispatch({ type: "INCREAMENT", payload: state.value + 1 })
+        dispatch(increment())
     }
     const handleDecrement = () => {
-        dispatch({ type: "INCREAMENT", payload: state.value - 1 })
+        dispatch(decrement())
     }
     return {
         handleDecrement,
         handleIncrement,
-        ...state
+        value: counter.value
     }
 
 }

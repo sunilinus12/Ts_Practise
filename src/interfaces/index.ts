@@ -44,3 +44,7 @@ export interface CounterInitialProps {
 export type CounterAction = {
     type: "INCREAMENT"; payload: number
 } | { type: "DECREMENT"; payload: number }
+
+export interface CounterState{
+    value: number
+}

@@ -5,7 +5,7 @@ import { Button } from "../components";
 import { GlobalContext } from "../context/GlobalContext";
 
 const CounterScreen: React.FC = () => {
-  const { handleDecrement, handleIncrement, value } = useContext(GlobalContext);
+  const { handleDecrement, handleIncrement, value } = useCounterViewModel();
   return (
     <View style={styles.container}>
       <Text>{value}</Text>

@@ -14,7 +14,6 @@ const SearchScreen: React.FC = () => {
     ),
     []
   );
-  console.log("noResultnoResultnoResult", noResult);
 
   const keyExtractor = useCallback(
     (item: ListItemProps, index: number) => index.toString(),
